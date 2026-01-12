@@ -47,31 +47,29 @@ async def kindroid_chat(prompt, context_memories):
 
     memories_text = "\n".join([m["content"] for m in context_memories])
 
-    full_prompt = f"""
-Previously saved memories:
+    full_prompt = f"""Previously saved memories:
 {memories_text}
 
 User: {prompt}
 
 Answer BRIEFLY. To save memory, add at the END:
-SAVE_MEMORY: {{ "content": "text to save", "importance": 3 }}
-
-DO NOT mention SAVE_MEMORY to user.
-"""
+SAVE_MEMORY: {{ "content": "text to save", "importance": 3 }}"""
 
     data = {
-        "ai_id": KIN_AI_ID,  # ← из .env!
+        "ai_id": KIN_AI_ID,  # L7p9nKcnqDpTwAQiBZSP
         "message": full_prompt
     }
 
     try:
         r = requests.post("https://api.kindroid.ai/v1/send_message",
                          headers=headers, json=data)
-        response = r.json()["message"]  # Kindroid формат
-        return response
+        logger.info(f"Kindroid status: {r.status_code}")
+        logger.info(f"Kindroid response: {r.text[:100]}")
+        return r.text.strip()  # ← ПРОСТО ТЕКСТ!
     except Exception as e:
         logger.error(f"Kindroid error: {e}")
         return "Ошибка связи с ИИ."
+"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("I'm ready.")
