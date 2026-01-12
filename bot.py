@@ -69,7 +69,6 @@ SAVE_MEMORY: {{ "content": "text to save", "importance": 3 }}"""
     except Exception as e:
         logger.error(f"Kindroid error: {e}")
         return "Ошибка связи с ИИ."
-"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("I'm ready.")
