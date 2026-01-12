@@ -59,16 +59,15 @@ SAVE_MEMORY: {{ "content": "text to save", "importance": 3 }}
 DO NOT mention SAVE_MEMORY to user.
 """
 
-
     data = {
-        "messages": [{"role": "user", "content": full_prompt}],
-        "model": "kindroid"
+        "ai_id": KIN_AI_ID,  # ← из .env!
+        "message": full_prompt
     }
 
     try:
-        r = requests.post("https://api.kindroid.ai/v1/chat/completions",
+        r = requests.post("https://api.kindroid.ai/v1/send_message",
                          headers=headers, json=data)
-        response = r.json()["choices"][0]["message"]["content"]
+        response = r.json()["message"]  # Kindroid формат
         return response
     except Exception as e:
         logger.error(f"Kindroid error: {e}")
