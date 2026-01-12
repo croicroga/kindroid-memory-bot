@@ -61,7 +61,7 @@ SAVE_MEMORY: {{ "content": "text to save", "importance": 3 }}"""
     }
 
     try:
-        r = requests.post("https://api.kindroid.ai/v1/send_message",
+        r = requests.post("https://api.kindroid.ai/v1/send-message",
                          headers=headers, json=data)
         logger.info(f"Kindroid status: {r.status_code}")
         logger.info(f"Kindroid response: {r.text[:100]}")
